@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<style>
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+.section {
+  max-height: 250px;
+  padding: 1rem;
+  overflow-y: auto;
+  direction: ltr;
+  scrollbar-color: #d4aa70 #e4e4e4;
+  scrollbar-width: thin;
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  p + p {
+    margin-top: 1rem;
+  }
+}
+
+.section::-webkit-scrollbar {
+  width: 20px;
+}
+
+.section::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+.section::-webkit-scrollbar-thumb {
+  border-radius: 100px;
+  border: 5px solid transparent;
+  background-clip: content-box;
+  background-color: #8070d4;
+}
+
+/* Create two equal columns that floats next to each other */
+.column {
+  float: left;
+  width: 50%;
+  padding: 10px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+/* Style the buttons */
+.btn {
+  border: none;
+  outline: none;
+  padding: 12px 16px;
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background-color: #ddd;
+}
+
+.btn.active {
+  background-color: #666;
+  color: white;
+}
+input[type=number], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 6px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+div {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+ 
+}
+diva {
+  border-radius: 5px;
+  background-color: #f45a049;
+  padding: 20px;
+ 
+}
+diva:hover {
+    background-color: #45a049;
+ }
+h3 {
+   text-align: center;
+}
+</style>
+<body>
+<div class="noselect">
+<h3>BONUS APP</h3>
+
+<div>
+  <form  id="form" method="post">
+    <label for="fname">Pembayaran</label>
+    <input type="number" id="bayar" name="hasil" placeholder="Bayar">
+
+    <label for="lname">Bonus</label>
+    <input type="number" id="bonus" name="bonus" placeholder="Bonus">
+    
+    <input type="submit" value="Submit">
+  </form>
+  <script>
+  var form =document.getElementById("form")
+  form.addEventListener("submit",function(e){
+  e.preventDefault()
+  let nam="3254564";  
+  var bayar=document.getElementById('bayar').value
+  var bonus=document.getElementById('bonus').value
+  console.log(bayar)
+  console.log(bonus)
+  console.log(nam)
+  fetch("myprojectarca/posbonus.php", {
+  method:'POST',
+  body: JSON.stringify({ hasil:bayar,bonus:bonus}),
+  headers:{"Content-Type": "application/json; charset=UTF-8;  application/x-www-form-urlencoded","Access-Control-Allow-Origin":"*","Access-Control-Allow-Methods": "POST"}
+  }).then(response=> response.json())
+  .then(data=>
+	   console.log(data)
+	   )
+  bayar=''
+  bonus=''
+  })
+  function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+   }
+   return result;
+}
+  </script>
+</div>
+
+
+<br>
+<div class="section">
+<div class="row">
+  
+  <div id="records">
+  </div>
+  <div id="recordsone">
+  </div>
+  <div id="recordstwo">
+  </div>
+  <div id="recordsthree">
+  </div>
+  <diva id= "detail" >
+  <script>
+  fetch("myprojectarca/getbonus.php")
+  .then(response=> response.json())
+  .then( records=>{
+    console.log(records.records)
+	  document.getElementById("records").innerHTML='Bonus Hasil : '+records.records.map(a=>a.bonhal)
+	  document.getElementById("recordsone").innerHTML='Bonus  : '+records.records.map(a=>a.bonus)
+	  document.getElementById("recordstwo").innerHTML='Hasil : '+records.records.map(a=>a.hasil)
+	  document.getElementById("recordsthree").innerHTML='Nama : '+records.records.map(a=>a.nam)
+	  document.getElementById("detail").innerHTML='Detail'
+	})   
+   </script>
+   
+ </div>
+</div>
+<script>
+
+// Get the elements with class="column"
+/* width */
+
+var elements = document.getElementsByClassName("column");
+
+// Declare a loop variable
+var i;
+
+// List View
+function listView() {
+  for (i = 0; i < elements.length; i++) {
+    elements[i].style.width = "100%";
+  }
+}
+
+// Grid View
+function gridView() {
+  for (i = 0; i < elements.length; i++) {
+    elements[i].style.width = "50%";
+  }
+}
+
+/* Optional: Add active class to the current button (highlight it) */
+var container = document.getElementById("btnContainer");
+var btns = container.getElementsByClassName("btn");
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}
+
+</div>
+</body>
+</html>
